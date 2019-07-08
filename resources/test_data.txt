@@ -1,0 +1,23 @@
+*** Variables ***
+${pet_name}     my pet name test
+${petstatus}   Out of stock
+
+
+${petname2}     my doggie test  2
+
+
+${petname4}      cat
+${petstatus4}    out
+${petname4_edit}   s
+${petstatus4_edit}  of stock
+
+
+#=====================
+#API
+
+
+${dog_name}     my pet name test+1
+${id_dog}    1000
+${dog_name_b}   Bobbi
+${status_a}     Available
+

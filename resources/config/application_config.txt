@@ -1,0 +1,9 @@
+*** Variables ***
+${url}      http://localhost:3000/
+${browser}       chrome
+${chrome_options}       Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
+
+${api-url}      http://localhost:3000
+
+${default_width}    0       # change value if you want to run the ui tests against specific resolution otherwise this could be over ridden from the run command
+${default_height}   0       # change value if you want to run the ui tests against specific resolution otherwise this could be over ridden from the run command

@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20190708 20:18:26.604" generator="Robot 3.1.2 (Python 2.7.10 on darwin)">
+<suite source="/Users/hajty/repos/petstore/testcases/api/api_tests.robot" id="s1" name="Api Tests">
+<kw type="setup" name="Run Keywords" library="BuiltIn">
+<doc>Executes all the given keywords in a sequence.</doc>
+<arguments>
+<arg>Environment cleanout</arg>
+<arg>Ingest test data "5"</arg>
+</arguments>
+<kw name="Environment cleanout" library="delete">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:26.993" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:26.993" starttime="20190708 20:18:26.992"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.002" level="INFO">Get Request using : alias=petstore, uri=/api/pets, headers=None json=None</msg>
+<msg timestamp="20190708 20:18:27.003" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.003" starttime="20190708 20:18:26.993"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>${response.text}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.003" level="INFO">To JSON using : content=[] </msg>
+<msg timestamp="20190708 20:18:27.003" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.003" level="INFO">${json} = []</msg>
+<status status="PASS" endtime="20190708 20:18:27.003" starttime="20190708 20:18:27.003"></status>
+</kw>
+<kw name="Get Length" library="BuiltIn">
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<assign>
+<var>${jsonlenth}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.004" level="INFO">Length is 0</msg>
+<msg timestamp="20190708 20:18:27.004" level="INFO">${jsonlenth} = 0</msg>
+<status status="PASS" endtime="20190708 20:18:27.004" starttime="20190708 20:18:27.004"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${jsonlenth}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.004" level="INFO">0</msg>
+<status status="PASS" endtime="20190708 20:18:27.005" starttime="20190708 20:18:27.004"></status>
+</kw>
+<kw type="for" name="${member} IN [ @{json} ]">
+<status status="PASS" endtime="20190708 20:18:27.005" starttime="20190708 20:18:27.005"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>env cleaned out</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.005" level="INFO">env cleaned out</msg>
+<status status="PASS" endtime="20190708 20:18:27.005" starttime="20190708 20:18:27.005"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.005" starttime="20190708 20:18:26.992"></status>
+</kw>
+<kw name="Ingest test data &quot;5&quot;" library="post">
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${number_pets}&gt;0</arg>
+<arg>Load Pets</arg>
+<arg>${number_pets}</arg>
+</arguments>
+<kw name="Load Pets" library="post">
+<arguments>
+<arg>${number_pets}</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.007" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.007" starttime="20190708 20:18:27.007"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type</arg>
+<arg>application/json</arg>
+</arguments>
+<assign>
+<var>${header}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.008" level="INFO">${header} = {u'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.008" starttime="20190708 20:18:27.007"></status>
+</kw>
+<kw type="for" name="${INDEX} IN RANGE [ 1 | ${number_pets}+1 ]">
+<kw type="foritem" name="${INDEX} = 1">
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"id": ${INDEX},"name": "${pet_name}+${INDEX}","status": "Available"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.009" level="INFO">To JSON using : content={"id": 1,"name": "my pet name test+1","status": "Available"} </msg>
+<msg timestamp="20190708 20:18:27.009" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.009" level="INFO">${json} = {u'status': u'Available', u'id': 1, u'name': u'my pet name test+1'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.009" starttime="20190708 20:18:27.008"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.009" level="INFO">{u'status': u'Available', u'id': 1, u'name': u'my pet name test+1'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.009" starttime="20190708 20:18:27.009"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.015" level="INFO">Post Request using : alias=petstore, uri=/api/pets, data={"status": "Available", "id": 1, "name": "my pet name test+1"}, headers={u'Content-Type': u'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.015" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.015" starttime="20190708 20:18:27.010"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.015" level="INFO">&lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.015" starttime="20190708 20:18:27.015"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.015" starttime="20190708 20:18:27.008"></status>
+</kw>
+<kw type="foritem" name="${INDEX} = 2">
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"id": ${INDEX},"name": "${pet_name}+${INDEX}","status": "Available"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.016" level="INFO">To JSON using : content={"id": 2,"name": "my pet name test+2","status": "Available"} </msg>
+<msg timestamp="20190708 20:18:27.016" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.016" level="INFO">${json} = {u'status': u'Available', u'id': 2, u'name': u'my pet name test+2'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.016" starttime="20190708 20:18:27.016"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.017" level="INFO">{u'status': u'Available', u'id': 2, u'name': u'my pet name test+2'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.017" starttime="20190708 20:18:27.016"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.021" level="INFO">Post Request using : alias=petstore, uri=/api/pets, data={"status": "Available", "id": 2, "name": "my pet name test+2"}, headers={u'Content-Type': u'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.021" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.021" starttime="20190708 20:18:27.017"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.022" level="INFO">&lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.022" starttime="20190708 20:18:27.022"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.022" starttime="20190708 20:18:27.015"></status>
+</kw>
+<kw type="foritem" name="${INDEX} = 3">
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"id": ${INDEX},"name": "${pet_name}+${INDEX}","status": "Available"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.023" level="INFO">To JSON using : content={"id": 3,"name": "my pet name test+3","status": "Available"} </msg>
+<msg timestamp="20190708 20:18:27.023" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.023" level="INFO">${json} = {u'status': u'Available', u'id': 3, u'name': u'my pet name test+3'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.023" starttime="20190708 20:18:27.022"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.023" level="INFO">{u'status': u'Available', u'id': 3, u'name': u'my pet name test+3'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.023" starttime="20190708 20:18:27.023"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.028" level="INFO">Post Request using : alias=petstore, uri=/api/pets, data={"status": "Available", "id": 3, "name": "my pet name test+3"}, headers={u'Content-Type': u'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.028" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.028" starttime="20190708 20:18:27.024"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.029" level="INFO">&lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.029" starttime="20190708 20:18:27.028"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.029" starttime="20190708 20:18:27.022"></status>
+</kw>
+<kw type="foritem" name="${INDEX} = 4">
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"id": ${INDEX},"name": "${pet_name}+${INDEX}","status": "Available"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.029" level="INFO">To JSON using : content={"id": 4,"name": "my pet name test+4","status": "Available"} </msg>
+<msg timestamp="20190708 20:18:27.029" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.029" level="INFO">${json} = {u'status': u'Available', u'id': 4, u'name': u'my pet name test+4'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.029" starttime="20190708 20:18:27.029"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.030" level="INFO">{u'status': u'Available', u'id': 4, u'name': u'my pet name test+4'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.030" starttime="20190708 20:18:27.030"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.034" level="INFO">Post Request using : alias=petstore, uri=/api/pets, data={"status": "Available", "id": 4, "name": "my pet name test+4"}, headers={u'Content-Type': u'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.034" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.034" starttime="20190708 20:18:27.030"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.035" level="INFO">&lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.035" starttime="20190708 20:18:27.035"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.035" starttime="20190708 20:18:27.029"></status>
+</kw>
+<kw type="foritem" name="${INDEX} = 5">
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"id": ${INDEX},"name": "${pet_name}+${INDEX}","status": "Available"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.035" level="INFO">To JSON using : content={"id": 5,"name": "my pet name test+5","status": "Available"} </msg>
+<msg timestamp="20190708 20:18:27.036" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.036" level="INFO">${json} = {u'status': u'Available', u'id': 5, u'name': u'my pet name test+5'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.036" starttime="20190708 20:18:27.035"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.036" level="INFO">{u'status': u'Available', u'id': 5, u'name': u'my pet name test+5'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.036" starttime="20190708 20:18:27.036"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.040" level="INFO">Post Request using : alias=petstore, uri=/api/pets, data={"status": "Available", "id": 5, "name": "my pet name test+5"}, headers={u'Content-Type': u'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.041" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.041" starttime="20190708 20:18:27.036"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.041" level="INFO">&lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.041" starttime="20190708 20:18:27.041"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.041" starttime="20190708 20:18:27.035"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.041" starttime="20190708 20:18:27.008"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${number_pets} pets loaded</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.042" level="INFO">5 pets loaded</msg>
+<status status="PASS" endtime="20190708 20:18:27.042" starttime="20190708 20:18:27.042"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.042" starttime="20190708 20:18:27.006"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.042" starttime="20190708 20:18:27.006"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.042" starttime="20190708 20:18:27.005"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.042" starttime="20190708 20:18:26.991"></status>
+</kw>
+<test id="s1-t1" name="TestGetPets_200">
+<kw name="When Get Pets" library="get">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.044" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.044" starttime="20190708 20:18:27.043"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.050" level="INFO">Get Request using : alias=petstore, uri=/api/pets, headers=None json=None</msg>
+<msg timestamp="20190708 20:18:27.050" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.050" starttime="20190708 20:18:27.045"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.051" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.051" starttime="20190708 20:18:27.050"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.051" starttime="20190708 20:18:27.043"></status>
+</kw>
+<kw name="Then HTTP Response Status Code Should Be &quot;200&quot;" library="common">
+<doc>Check whether response status code is 201 OK</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>${code}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.052" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.052" starttime="20190708 20:18:27.052"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.052" starttime="20190708 20:18:27.051"></status>
+</kw>
+<kw name="And Response Body Should Contain Data" library="get">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.054" level="INFO">[{u'status': u'Available', u'id': 1, u'name': u'my pet name test+1'}, {u'status': u'Available', u'id': 2, u'name': u'my pet name test+2'}, {u'status': u'Available', u'id': 3, u'name': u'my pet name test+3'}, {u'status': u'Available', u'id': 4, u'name': u'my pet name test+4'}, {u'status': u'Available', u'id': 5, u'name': u'my pet name test+5'}]</msg>
+<status status="PASS" endtime="20190708 20:18:27.054" starttime="20190708 20:18:27.053"></status>
+</kw>
+<kw name="Should Not Be Empty" library="BuiltIn">
+<doc>Verifies that the given item is not empty.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.055" level="INFO">Length is 5</msg>
+<status status="PASS" endtime="20190708 20:18:27.055" starttime="20190708 20:18:27.054"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.055" starttime="20190708 20:18:27.053"></status>
+</kw>
+<doc>test to verify Get all pets from the store (getPets)</doc>
+<status status="PASS" endtime="20190708 20:18:27.055" critical="yes" starttime="20190708 20:18:27.042"></status>
+</test>
+<test id="s1-t2" name="TestGetPetById_200">
+<kw name="When Get Pet ById" library="get">
+<arguments>
+<arg>1</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.057" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.058" starttime="20190708 20:18:27.057"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.066" level="INFO">Get Request using : alias=petstore, uri=/api/pets/1, headers=None json=None</msg>
+<msg timestamp="20190708 20:18:27.066" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.066" starttime="20190708 20:18:27.058"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.067" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.067" starttime="20190708 20:18:27.066"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.067" starttime="20190708 20:18:27.057"></status>
+</kw>
+<kw name="Then HTTP Response Status Code Should Be &quot;200&quot;" library="common">
+<doc>Check whether response status code is 201 OK</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>${code}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.068" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.069" starttime="20190708 20:18:27.068"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.069" starttime="20190708 20:18:27.068"></status>
+</kw>
+<kw name="And Response Body &quot;name&quot; Should Be &quot;${dog_name}&quot;" library="get">
+<doc>Check whether key=value in response body</doc>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>${response.text}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.071" level="INFO">To JSON using : content={
+  "status": "Available",
+  "id": 1,
+  "name": "my pet name test+1"
+} </msg>
+<msg timestamp="20190708 20:18:27.071" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.071" level="INFO">${json} = {u'status': u'Available', u'id': 1, u'name': u'my pet name test+1'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.071" starttime="20190708 20:18:27.070"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${json['${key}']}</arg>
+<arg>${value}</arg>
+</arguments>
+<status status="PASS" endtime="20190708 20:18:27.072" starttime="20190708 20:18:27.071"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.072" starttime="20190708 20:18:27.069"></status>
+</kw>
+<doc>test to verify get pet by ID (getPetById)</doc>
+<status status="PASS" endtime="20190708 20:18:27.072" critical="yes" starttime="20190708 20:18:27.056"></status>
+</test>
+<test id="s1-t3" name="TestGetPetById_404">
+<kw name="When Get Pet ById" library="get">
+<arguments>
+<arg>300</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.074" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.075" starttime="20190708 20:18:27.074"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.081" level="INFO">Get Request using : alias=petstore, uri=/api/pets/300, headers=None json=None</msg>
+<msg timestamp="20190708 20:18:27.081" level="INFO">${response} = &lt;Response [404]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.081" starttime="20190708 20:18:27.075"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.082" level="INFO">${response} = &lt;Response [404]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.082" starttime="20190708 20:18:27.082"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.082" starttime="20190708 20:18:27.073"></status>
+</kw>
+<kw name="Then HTTP Response Status Code Should Be &quot;404&quot;" library="common">
+<doc>Check whether response status code is 201 OK</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>${code}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.084" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.084" starttime="20190708 20:18:27.084"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.084" starttime="20190708 20:18:27.083"></status>
+</kw>
+<doc>test to verify get pet by for non existing ID</doc>
+<status status="PASS" endtime="20190708 20:18:27.085" critical="yes" starttime="20190708 20:18:27.073"></status>
+</test>
+<test id="s1-t4" name="TestPostPet_201">
+<kw name="When Post Pet" library="post">
+<arguments>
+<arg>${id_dog}</arg>
+<arg>${dog_name_b}</arg>
+<arg>${status_a}</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.086" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.087" starttime="20190708 20:18:27.086"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"id": ${id},"name": "${name}","status": "${status}"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.087" level="INFO">To JSON using : content={"id": 1000,"name": "Bobbi","status": "Available"} </msg>
+<msg timestamp="20190708 20:18:27.087" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.088" level="INFO">${json} = {u'status': u'Available', u'id': 1000, u'name': u'Bobbi'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.088" starttime="20190708 20:18:27.087"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type</arg>
+<arg>application/json</arg>
+</arguments>
+<assign>
+<var>${header}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.088" level="INFO">${header} = {u'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.088" starttime="20190708 20:18:27.088"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.089" level="INFO">{u'status': u'Available', u'id': 1000, u'name': u'Bobbi'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.089" starttime="20190708 20:18:27.088"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.094" level="INFO">Post Request using : alias=petstore, uri=/api/pets, data={"status": "Available", "id": 1000, "name": "Bobbi"}, headers={u'Content-Type': u'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.094" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.094" starttime="20190708 20:18:27.089"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.095" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.096" starttime="20190708 20:18:27.095"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.096" starttime="20190708 20:18:27.086"></status>
+</kw>
+<kw name="Then HTTP Response Status Code Should Be &quot;201&quot;" library="common">
+<doc>Check whether response status code is 201 OK</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>${code}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.097" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.098" starttime="20190708 20:18:27.097"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.098" starttime="20190708 20:18:27.096"></status>
+</kw>
+<kw type="teardown" name="Delete Pet &quot;1000&quot;" library="common">
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${id}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.103" level="INFO">Delete Request using : alias=petstore, uri=/api/pets/1000, data=None,                     headers=None, allow_redirects=True </msg>
+<status status="PASS" endtime="20190708 20:18:27.103" starttime="20190708 20:18:27.098"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.103" starttime="20190708 20:18:27.098"></status>
+</kw>
+<doc>test to verify a new pet can be added to the store (addPet)</doc>
+<status status="PASS" endtime="20190708 20:18:27.103" critical="yes" starttime="20190708 20:18:27.085"></status>
+</test>
+<test id="s1-t5" name="TestUpdatePet_200">
+<kw name="When Update Pet &quot;1&quot; Status &quot;Not Available&quot;" library="put">
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type</arg>
+<arg>application/json</arg>
+</arguments>
+<assign>
+<var>${Header}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.105" level="INFO">${Header} = {u'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.106" starttime="20190708 20:18:27.105"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"name": "Donald","status": "${status}"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.106" level="INFO">To JSON using : content={"name": "Donald","status": "Not Available"} </msg>
+<msg timestamp="20190708 20:18:27.106" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.106" level="INFO">${json} = {u'status': u'Not Available', u'name': u'Donald'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.106" starttime="20190708 20:18:27.106"></status>
+</kw>
+<kw name="Put Request" library="RequestsLibrary">
+<doc>Send a PUT request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${id}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.111" level="INFO">Put Request using : alias=petstore, uri=/api/pets/1, data={"status": "Not Available", "name": "Donald"},                     headers={u'Content-Type': u'application/json'}, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.111" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.112" starttime="20190708 20:18:27.106"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.112" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.112" starttime="20190708 20:18:27.112"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.112" starttime="20190708 20:18:27.104"></status>
+</kw>
+<kw name="Then HTTP Response Status Code Should Be &quot;200&quot;" library="common">
+<doc>Check whether response status code is 201 OK</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>${code}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.114" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.114" starttime="20190708 20:18:27.113"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.114" starttime="20190708 20:18:27.113"></status>
+</kw>
+<kw type="teardown" name="Update Pet &quot;1&quot; Status &quot;Available&quot;" library="put">
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type</arg>
+<arg>application/json</arg>
+</arguments>
+<assign>
+<var>${Header}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.116" level="INFO">${Header} = {u'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.116" starttime="20190708 20:18:27.115"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"name": "Donald","status": "${status}"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.116" level="INFO">To JSON using : content={"name": "Donald","status": "Available"} </msg>
+<msg timestamp="20190708 20:18:27.117" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.117" level="INFO">${json} = {u'status': u'Available', u'name': u'Donald'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.117" starttime="20190708 20:18:27.116"></status>
+</kw>
+<kw name="Put Request" library="RequestsLibrary">
+<doc>Send a PUT request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${id}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.124" level="INFO">Put Request using : alias=petstore, uri=/api/pets/1, data={"status": "Available", "name": "Donald"},                     headers={u'Content-Type': u'application/json'}, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.124" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.124" starttime="20190708 20:18:27.118"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.125" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.125" starttime="20190708 20:18:27.124"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.125" starttime="20190708 20:18:27.115"></status>
+</kw>
+<doc>test to verify pet update in the store with form data (updatePetWithForm)</doc>
+<status status="PASS" endtime="20190708 20:18:27.125" critical="yes" starttime="20190708 20:18:27.104"></status>
+</test>
+<test id="s1-t6" name="TestDeletePet_200">
+<kw type="setup" name="Post Pet" library="post">
+<arguments>
+<arg>20001</arg>
+<arg>Robin</arg>
+<arg>Avialable</arg>
+</arguments>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.127" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.127" starttime="20190708 20:18:27.127"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>{"id": ${id},"name": "${name}","status": "${status}"}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.128" level="INFO">To JSON using : content={"id": 20001,"name": "Robin","status": "Avialable"} </msg>
+<msg timestamp="20190708 20:18:27.128" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.128" level="INFO">${json} = {u'status': u'Avialable', u'id': 20001, u'name': u'Robin'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.128" starttime="20190708 20:18:27.128"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type</arg>
+<arg>application/json</arg>
+</arguments>
+<assign>
+<var>${header}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.129" level="INFO">${header} = {u'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.129" starttime="20190708 20:18:27.128"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.129" level="INFO">{u'status': u'Avialable', u'id': 20001, u'name': u'Robin'}</msg>
+<status status="PASS" endtime="20190708 20:18:27.129" starttime="20190708 20:18:27.129"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+<arg>data=${json}</arg>
+<arg>headers=${Header}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.137" level="INFO">Post Request using : alias=petstore, uri=/api/pets, data={"status": "Avialable", "id": 20001, "name": "Robin"}, headers={u'Content-Type': u'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.137" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.137" starttime="20190708 20:18:27.130"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.138" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.138" starttime="20190708 20:18:27.137"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.138" starttime="20190708 20:18:27.126"></status>
+</kw>
+<kw name="When Delete Pet by &quot;20001&quot;" library="delete">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.139" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.139" starttime="20190708 20:18:27.139"></status>
+</kw>
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.146" level="INFO">Delete Request using : alias=petstore, uri=/api/pets/20001, data=None,                     headers=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.147" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.147" starttime="20190708 20:18:27.140"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.147" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.148" starttime="20190708 20:18:27.147"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.148" starttime="20190708 20:18:27.138"></status>
+</kw>
+<kw name="Then HTTP Response Status Code Should Be &quot;200&quot;" library="common">
+<doc>Check whether response status code is 201 OK</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>${code}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.150" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.150" starttime="20190708 20:18:27.149"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.150" starttime="20190708 20:18:27.148"></status>
+</kw>
+<doc>test to verify pet deletion API (deletePet)</doc>
+<status status="PASS" endtime="20190708 20:18:27.150" critical="yes" starttime="20190708 20:18:27.126"></status>
+</test>
+<test id="s1-t7" name="TestDeletePet_404">
+<kw name="When Delete Pet by &quot;3000&quot;" library="delete">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.153" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.153" starttime="20190708 20:18:27.153"></status>
+</kw>
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.159" level="INFO">Delete Request using : alias=petstore, uri=/api/pets/3000, data=None,                     headers=None, allow_redirects=True </msg>
+<msg timestamp="20190708 20:18:27.159" level="INFO">${response} = &lt;Response [404]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.159" starttime="20190708 20:18:27.154"></status>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${response}</arg>
+<arg>${response}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.160" level="INFO">${response} = &lt;Response [404]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.160" starttime="20190708 20:18:27.160"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.160" starttime="20190708 20:18:27.152"></status>
+</kw>
+<kw name="Then HTTP Response Status Code Should Be &quot;404&quot;" library="common">
+<doc>Check whether response status code is 201 OK</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>${code}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.162" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.162" starttime="20190708 20:18:27.161"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.162" starttime="20190708 20:18:27.161"></status>
+</kw>
+<doc>ttest to verify pet deletion API for non existing pet</doc>
+<status status="PASS" endtime="20190708 20:18:27.162" critical="yes" starttime="20190708 20:18:27.151"></status>
+</test>
+<kw type="teardown" name="Environment cleanout" library="delete">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>${api-url}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.164" level="INFO">Creating Session using : alias=petstore, url=http://localhost:3000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190708 20:18:27.164" starttime="20190708 20:18:27.163"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.173" level="INFO">Get Request using : alias=petstore, uri=/api/pets, headers=None json=None</msg>
+<msg timestamp="20190708 20:18:27.173" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190708 20:18:27.173" starttime="20190708 20:18:27.164"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>${response.text}</arg>
+</arguments>
+<assign>
+<var>${json}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.174" level="INFO">To JSON using : content=[
+  {
+    "status": "Available",
+    "name": "Donald",
+    "id": 1
+  },
+  {
+    "status": "Available",
+    "id": 2,
+    "name": "my pet name test+2"
+  },
+  {
+    "status": "Available",
+    "id": 3,
+    "name": "my pet name test+3"
+  },
+  {
+    "status": "Available",
+    "id": 4,
+    "name": "my pet name test+4"
+  },
+  {
+    "status": "Available",
+    "id": 5,
+    "name": "my pet name test+5"
+  }
+] </msg>
+<msg timestamp="20190708 20:18:27.174" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20190708 20:18:27.174" level="INFO">${json} = [{u'status': u'Available', u'name': u'Donald', u'id': 1}, {u'status': u'Available', u'id': 2, u'name': u'my pet name test+2'}, {u'status': u'Available', u'id': 3, u'name': u'my pet name test+3'}, {u's...</msg>
+<status status="PASS" endtime="20190708 20:18:27.174" starttime="20190708 20:18:27.173"></status>
+</kw>
+<kw name="Get Length" library="BuiltIn">
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<arguments>
+<arg>${json}</arg>
+</arguments>
+<assign>
+<var>${jsonlenth}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.174" level="INFO">Length is 5</msg>
+<msg timestamp="20190708 20:18:27.175" level="INFO">${jsonlenth} = 5</msg>
+<status status="PASS" endtime="20190708 20:18:27.175" starttime="20190708 20:18:27.174"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${jsonlenth}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.175" level="INFO">5</msg>
+<status status="PASS" endtime="20190708 20:18:27.175" starttime="20190708 20:18:27.175"></status>
+</kw>
+<kw type="for" name="${member} IN [ @{json} ]">
+<kw type="foritem" name="${member} = {u'status': u'Available', u'name': u'Donald', u'id': 1}">
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${member}</arg>
+<arg>id</arg>
+</arguments>
+<assign>
+<var>${id}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.176" level="INFO">${id} = 1</msg>
+<status status="PASS" endtime="20190708 20:18:27.176" starttime="20190708 20:18:27.176"></status>
+</kw>
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.180" level="INFO">Delete Request using : alias=petstore, uri=/api/pets/1, data=None,                     headers=None, allow_redirects=True </msg>
+<status status="PASS" endtime="20190708 20:18:27.181" starttime="20190708 20:18:27.176"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.181" starttime="20190708 20:18:27.175"></status>
+</kw>
+<kw type="foritem" name="${member} = {u'status': u'Available', u'id': 2, u'name': u'my pet name test+2'}">
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${member}</arg>
+<arg>id</arg>
+</arguments>
+<assign>
+<var>${id}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.181" level="INFO">${id} = 2</msg>
+<status status="PASS" endtime="20190708 20:18:27.181" starttime="20190708 20:18:27.181"></status>
+</kw>
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.187" level="INFO">Delete Request using : alias=petstore, uri=/api/pets/2, data=None,                     headers=None, allow_redirects=True </msg>
+<status status="PASS" endtime="20190708 20:18:27.187" starttime="20190708 20:18:27.181"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.187" starttime="20190708 20:18:27.181"></status>
+</kw>
+<kw type="foritem" name="${member} = {u'status': u'Available', u'id': 3, u'name': u'my pet name test+3'}">
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${member}</arg>
+<arg>id</arg>
+</arguments>
+<assign>
+<var>${id}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.188" level="INFO">${id} = 3</msg>
+<status status="PASS" endtime="20190708 20:18:27.188" starttime="20190708 20:18:27.188"></status>
+</kw>
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.192" level="INFO">Delete Request using : alias=petstore, uri=/api/pets/3, data=None,                     headers=None, allow_redirects=True </msg>
+<status status="PASS" endtime="20190708 20:18:27.192" starttime="20190708 20:18:27.188"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.193" starttime="20190708 20:18:27.187"></status>
+</kw>
+<kw type="foritem" name="${member} = {u'status': u'Available', u'id': 4, u'name': u'my pet name test+4'}">
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${member}</arg>
+<arg>id</arg>
+</arguments>
+<assign>
+<var>${id}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.193" level="INFO">${id} = 4</msg>
+<status status="PASS" endtime="20190708 20:18:27.193" starttime="20190708 20:18:27.193"></status>
+</kw>
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.198" level="INFO">Delete Request using : alias=petstore, uri=/api/pets/4, data=None,                     headers=None, allow_redirects=True </msg>
+<status status="PASS" endtime="20190708 20:18:27.198" starttime="20190708 20:18:27.193"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.198" starttime="20190708 20:18:27.193"></status>
+</kw>
+<kw type="foritem" name="${member} = {u'status': u'Available', u'id': 5, u'name': u'my pet name test+5'}">
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${member}</arg>
+<arg>id</arg>
+</arguments>
+<assign>
+<var>${id}</var>
+</assign>
+<msg timestamp="20190708 20:18:27.199" level="INFO">${id} = 5</msg>
+<status status="PASS" endtime="20190708 20:18:27.199" starttime="20190708 20:18:27.199"></status>
+</kw>
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>petstore</arg>
+<arg>/api/pets/${Id}</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.205" level="INFO">Delete Request using : alias=petstore, uri=/api/pets/5, data=None,                     headers=None, allow_redirects=True </msg>
+<status status="PASS" endtime="20190708 20:18:27.205" starttime="20190708 20:18:27.199"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.205" starttime="20190708 20:18:27.198"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.205" starttime="20190708 20:18:27.175"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>env cleaned out</arg>
+</arguments>
+<msg timestamp="20190708 20:18:27.205" level="INFO">env cleaned out</msg>
+<status status="PASS" endtime="20190708 20:18:27.205" starttime="20190708 20:18:27.205"></status>
+</kw>
+<status status="PASS" endtime="20190708 20:18:27.205" starttime="20190708 20:18:27.163"></status>
+</kw>
+<doc>CRUD API tests to cover US05 - Exposing a REST API</doc>
+<status status="PASS" endtime="20190708 20:18:27.205" starttime="20190708 20:18:26.606"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="7">Critical Tests</stat>
+<stat fail="0" pass="7">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="Api Tests" pass="7">Api Tests</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

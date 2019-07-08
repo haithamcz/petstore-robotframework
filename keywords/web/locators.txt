@@ -1,0 +1,11 @@
+*** Variables ***
+${container}   .container
+${banner-date}      .banner-date
+
+
+
+${petname-input}    //input[@placeholder='Pet Name']
+${petstatus-input}    //input[@placeholder='Pet Status']
+
+
+
