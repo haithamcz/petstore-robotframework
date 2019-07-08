@@ -40,6 +40,7 @@ The windows resolution could be override by changing default width/height parame
 Test case naming, I used similar names to the corresponding US name to keep close mapping between tests and user stories acceptance criteria 
 
 Test structure:-
+
         -- /resources test config, data, web page methods, locators, common methods
         --/reports
         
