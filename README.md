@@ -45,6 +45,6 @@ Test structure:-
         --/reports
         
 ## Test Notes
-Some of the acceptance criteria where not possible to automate, like in <b>location of current date</b> in US01.
+Some of the acceptance criteria where not possible to automate, like the <b>location of current date</b> in US01.
 
  
