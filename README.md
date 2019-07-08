@@ -45,11 +45,12 @@ Test structure:-
         --/reports
         
 ## Test Notes
--   Some of the acceptance criteria where not possible to automate, like in <b>location of current date</b> in US01.
+-   Some of the acceptance criteria where not possible to automate, like the <b>location of current date</b> in US01
 -   Two of the web test cases will fail 
-    --  <b>US01_DisplayCurrentDate</b> (due to date banner background is not set to black) 
-    --  <b>US03_Mandatory_Fields_Check</b> I set some checks for required fields on text input for pet name/status
-    and it seems to be those fields are not set to be required because you can create a pet without name and status
+    
+    * <b>US01_DisplayCurrentDate</b> (due to date banner background is not set to black) 
+    * <b>US03_Mandatory_Fields_Check</b> I set some checks for required fields on text input for pet name/status
+        and it seems to be those fields are not set to be required because you can create a pet without name and status
 
 
  
